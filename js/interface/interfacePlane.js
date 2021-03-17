@@ -119,6 +119,23 @@ InterfacePlane.prototype.createElement = function(symmetry, plane, removeMe, mov
         }
     ));
 
+    element.appendChild(this.createCheckBox(
+      "Animate: ",
+      false,
+      checked => {
+        if (checked) {
+          this.animationX = setInterval(() => {
+            plane.rotationX = plane.rotationX + rotationSpeed;
+            symmetry.updatePlanes();
+          }, 10)
+        } else {
+          if (this.animationX) {
+            clearInterval(this.animationX)
+          }
+        }
+      }
+    ));
+
     element.appendChild(this.createSlider(
         "Rotation Y: ",
         this.ROTATION_RANGE_Y,
@@ -129,6 +146,23 @@ InterfacePlane.prototype.createElement = function(symmetry, plane, removeMe, mov
 
             symmetry.updatePlanes();
         }
+    ));
+
+    element.appendChild(this.createCheckBox(
+      "Animate: ",
+      false,
+      checked => {
+        if (checked) {
+          this.animationY = setInterval(() => {
+            plane.rotationY = plane.rotationY + rotationSpeed;
+            symmetry.updatePlanes();
+          }, 10)
+        } else {
+          if (this.animationY) {
+            clearInterval(this.animationY)
+          }
+        }
+      }
     ));
 
     element.appendChild(buttonUp);
