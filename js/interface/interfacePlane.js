@@ -21,6 +21,8 @@ InterfacePlane.prototype.COORDINATE_RANGE = new Range(-2, 2);
 InterfacePlane.prototype.ROTATION_RANGE_X = new Range(0, Math.PI * 2);
 InterfacePlane.prototype.ROTATION_RANGE_Y = new Range(0, Math.PI * 2);
 
+InterfacePlane.prototype.ROTATION_SPEED_RANGE = new Range(0, 0.01)
+
 /**
  * Create the element
  * @param {Symmetry} symmetry The symmetry object
@@ -119,19 +121,20 @@ InterfacePlane.prototype.createElement = function(symmetry, plane, removeMe, mov
         }
     ));
 
-    element.appendChild(this.createCheckBox(
-      "Animate: ",
-      false,
-      checked => {
-        if (checked) {
+    element.appendChild(this.createSlider(
+      "Animate X: ",
+      this.ROTATION_SPEED_RANGE,
+      0,
+      0.001,
+      value => {
+        if (this.animationX) {
+          clearInterval(this.animationX)
+        }
+        if (value > 0) {
           this.animationX = setInterval(() => {
-            plane.rotationX = plane.rotationX + rotationSpeed;
+            plane.rotationX = plane.rotationX + value;
             symmetry.updatePlanes();
           }, 10)
-        } else {
-          if (this.animationX) {
-            clearInterval(this.animationX)
-          }
         }
       }
     ));
@@ -148,19 +151,20 @@ InterfacePlane.prototype.createElement = function(symmetry, plane, removeMe, mov
         }
     ));
 
-    element.appendChild(this.createCheckBox(
-      "Animate: ",
-      false,
-      checked => {
-        if (checked) {
+    element.appendChild(this.createSlider(
+      "Animate Y: ",
+      this.ROTATION_SPEED_RANGE,
+      0,
+      0.001,
+      value => {
+        if (this.animationY) {
+          clearInterval(this.animationY)
+        }
+        if (value > 0) {
           this.animationY = setInterval(() => {
-            plane.rotationY = plane.rotationY + rotationSpeed;
+            plane.rotationY = plane.rotationY + value;
             symmetry.updatePlanes();
           }, 10)
-        } else {
-          if (this.animationY) {
-            clearInterval(this.animationY)
-          }
         }
       }
     ));
